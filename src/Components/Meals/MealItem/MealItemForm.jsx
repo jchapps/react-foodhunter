@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import styles from './MealItemForm.module.css'
 
 import Input from '../../UI/Input'
 
+
 function MealItemForm(props) {
+  const [amountIsValid, setAmountIsValid] = useState(true)
+  const amountInputRef = useRef()
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const enteredAmount = amountInputRef.current.value;
+    const enteredAmountNumber = +enteredAmount
+
+    if (enteredAmount.trim().length === 0 || enteredAmountNumber < 1 || enteredAmountNumber > 10) {
+      setAmountIsValid(false)
+      return
+    }
+
+    props.onAddToCheckout(enteredAmountNumber)
+  }
   return (
-    <form className={styles.form}>
-      <Input label='Amount' input={{
+    <form className={styles.form} onSubmit={submitHandler}>
+      <Input label='Amount' ref={amountInputRef} input={{
         id: 'amount',
         type: 'number',
         min: '1',
@@ -15,6 +31,7 @@ function MealItemForm(props) {
         default: '1'
       }}/>
       <button>+</button>
+      {!amountIsValid && <h1>Please enter an amount 1-10</h1>}
     </form>
 
   );

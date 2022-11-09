@@ -2,7 +2,7 @@ import React from 'react';
 
 const CheckoutContext = React.createContext({
   items: [],
-  total: 0,
+  totalAmount: 0,
   addItem: (item) => {},
   removeItem: (id) => {}
 })
