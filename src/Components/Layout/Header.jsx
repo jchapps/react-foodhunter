@@ -5,11 +5,12 @@ import HeaderCheckoutButton from './HeaderCheckoutButton'
 import styles from './Header.module.css'
 
 function Header(props) {
+
   return (
     <>
       <header className={styles.header}>
         <h1>Gohan Hunter</h1>
-        <HeaderCheckoutButton/>
+        <HeaderCheckoutButton onClick={props.onShowCheckout} />
       </header>
       <div className={styles['main-image']}>
         <img src={banner} alt='food banner'/>
