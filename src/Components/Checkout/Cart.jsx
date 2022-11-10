@@ -1,23 +1,38 @@
-import React from 'react';
-import Modal from '../UI/Modal';
-import styles from './Cart.module.css'
+import React, { useContext } from "react";
+import Modal from "../UI/Modal";
+import styles from "./Cart.module.css";
+import CheckoutContext from "../../Store/checkout-context";
 
 function Cart(props) {
-  const cartItems = <ul className={styles['cart-items']}>{[{id: 'c1', name:'suhsi', amount: 2, price:'30'}].map(item => <li>{item.name}</li>)}</ul>
+const checkoutctx = useContext(CheckoutContext)
+const totalPrice = `$${checkoutctx.totalAmount.toFixed(2)}`
+const hasItems = checkoutctx.items.length > 0
 
-
-
+  const cartItems = (
+    <ul className={styles["cart-items"]}>
+      {checkoutctx.items.map((item) => (
+        <li>{item.name}</li>
+      ))}
+    </ul>
+  );
 
   return (
     <Modal onClose={props.onCloseCheckout}>
       {cartItems}
       <div className={styles.total}>
         <span>Total:</span>
-        <span>30</span>
+        <span>{totalPrice}</span>
       </div>
       <div className={styles.actions}>
-        <button className={styles.button} onClick={props.onCloseCheckout}>Order</button>
-        <button className={styles['button--alt']} onClick={props.onCloseCheckout}>Close</button>
+        {hasItems && <button className={styles.button} onClick={props.onCloseCheckout}>
+          Order
+        </button>}
+        <button
+          className={styles["button--alt"]}
+          onClick={props.onCloseCheckout}
+        >
+          Close
+        </button>
       </div>
     </Modal>
   );
