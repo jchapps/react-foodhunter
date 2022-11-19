@@ -5,35 +5,55 @@ import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
 
 function AvailableMeals() {
-  const [meals, setMeals] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [meals, setMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState();
 
+  useEffect(() => {
+    const fetchMeals = async () => {
+      const response = await fetch(
+        "https://customhook-b3ed4-default-rtdb.firebaseio.com/Meals.json"
+      );
 
-  useEffect( () => {
-    const fetchMeals = async() => {
-      const response = await fetch("https://customhook-b3ed4-default-rtdb.firebaseio.com/Meals.json");
+      if (!response.ok) {
+        throw new Error("Woops, something bad happened");
+      }
+
       const responseData = await response.json();
 
-       const loadedMeals = []
+      const loadedMeals = [];
 
-       for (const key in responseData) {
+      for (const key in responseData) {
         loadedMeals.push({
           id: key,
           name: responseData[key].name,
           description: responseData[key].description,
-          price: responseData[key].price
-        })
-       }
-       setMeals(loadedMeals)
-       setIsLoading(false)
+          price: responseData[key].price,
+        });
       }
-      fetchMeals();
+      setMeals(loadedMeals);
+      setIsLoading(false);
+    };
+      fetchMeals().catch(error => {
+        setIsLoading(false);
+        setHttpError(error.message);
+      });
   }, []);
 
   if (isLoading) {
-    return <section className={styles.MealsLoading}>
-      <p>LOADING</p>
-    </section>
+    return (
+      <section className={styles.MealsLoading}>
+        <p>LOADING</p>
+      </section>
+    );
+  }
+
+  if (httpError) {
+    return (
+      <section className={styles.MealsError}>
+        <p className={styles.http}>{httpError}</p>
+      </section>
+    );
   }
 
   const mealsList = meals.map((meal) => (
