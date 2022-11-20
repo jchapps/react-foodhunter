@@ -1,29 +1,36 @@
-import React from 'react';
-import classes from './Checkout.module.css'
+import classes from './Checkout.module.css';
 
-function Checkout(props) {
+const Checkout = (props) => {
+  const confirmHandler = (event) => {
+    event.preventDefault();
+  };
+
   return (
-    <form>
+    <form className={classes.form} onSubmit={confirmHandler}>
       <div className={classes.control}>
-        <label htmlFor="name">Name</label>
-        <input type="text" id="name" value=""/>
+        <label htmlFor='name'>Your Name</label>
+        <input type='text' id='name' />
       </div>
       <div className={classes.control}>
-        <label htmlFor="street">Street</label>
-        <input type="text" id="street" value=""/>
+        <label htmlFor='street'>Street</label>
+        <input type='text' id='street' />
       </div>
       <div className={classes.control}>
-        <label htmlFor="city">City</label>
-        <input type="text" id="city" value=""/>
+        <label htmlFor='postal'>Postal Code</label>
+        <input type='text' id='postal' />
       </div>
       <div className={classes.control}>
-        <label htmlFor="postcode">Postcode</label>
-        <input type="text" id="postcode" value=""/>
+        <label htmlFor='city'>City</label>
+        <input type='text' id='city' />
       </div>
-      <button type='button' onClick={props.onCancel}>Close</button>
-      <button>Confirm</button>
+      <div className={classes.actions}>
+        <button type='button' onClick={props.onCancel}>
+          Cancel
+        </button>
+        <button className={classes.submit}>Confirm</button>
+      </div>
     </form>
   );
-}
+};
 
 export default Checkout;
