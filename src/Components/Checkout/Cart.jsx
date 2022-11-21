@@ -7,6 +7,7 @@ import Checkout from "./Checkout";
 
 function Cart(props) {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const checkoutctx = useContext(CheckoutContext);
   const totalPrice = `$${checkoutctx.totalAmount.toFixed(2)}`;
   const hasItems = checkoutctx.items.length > 0;
@@ -17,6 +18,17 @@ function Cart(props) {
 
   function checkoutItemAddHandler(item) {
     checkoutctx.addItem({ ...item, amount: 1 });
+  }
+
+  const submitOrderHandler = async(userData) => {
+    setIsSubmitting(true)
+    const response = await fetch('https://customhook-b3ed4-default-rtdb.firebaseio.com/orders.json', {
+      method: 'POST',
+      body: JSON.stringify({
+        user: userData,
+        orderedItems: checkoutctx.items
+      })
+    })
   }
 
   const cartItems = (
@@ -58,7 +70,7 @@ function Cart(props) {
         <span>Total:</span>
         <span>{totalPrice}</span>
       </div>
-      {isCheckingOut && <Checkout onCancel={props.onCloseCheckout}/>}
+      {isCheckingOut && <Checkout onSubmit={submitOrderHandler} onCancel={props.onCloseCheckout}/>}
       {!isCheckingOut && modalButtons}
     </Modal>
   );

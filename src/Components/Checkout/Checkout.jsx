@@ -43,10 +43,16 @@ const Checkout = (props) => {
 
     const formIsValid =  enteredNameIsValid && enteredStreetIsValid && enteredCityIsValid && enteredPostcodeIsValid
 
-    if (formIsValid) {
-      //submit to firebase
+    if (!formIsValid) {
+      return
     }
 
+    props.onSubmit({
+      name: enteredName,
+      street: enteredStreet,
+      city: enteredCity,
+      postcode: enteredPostcode
+    })
   };
 
   const nameClasses = `${classes.control} ${formInputsValidity.name ? '' : classes.invalid}`
