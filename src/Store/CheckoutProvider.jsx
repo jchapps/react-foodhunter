@@ -52,6 +52,11 @@ const checkoutReducer = (state, action) => {
       totalAmount: updatedTotalAmount
     }
   }
+  if (action.type === 'CLEAR') {
+    return defaultCheckout
+
+  }
+
   return defaultCheckout;
 };
 
@@ -68,11 +73,16 @@ function CheckoutProvider(props) {
     dispatchCheckoutAction({ type: "REMOVE", id: ID });
   };
 
+  const clearCheckoutHandler = () => {
+    dispatchCheckoutAction({TYPE: 'CLEAR'})
+  }
+
   const checkoutContext = {
     items: checkoutState.items,
     totalAmount: checkoutState.totalAmount,
     addItem: addItemToCOHandler,
     removeItem: removeItemFromCOHandler,
+    clearCheckout: clearCheckoutHandler
   };
 
   return (
