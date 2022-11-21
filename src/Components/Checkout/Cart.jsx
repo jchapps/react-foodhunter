@@ -86,7 +86,17 @@ function Cart(props) {
   );
 
   const isSubmittingModal = <p>Processing order 🚚</p>;
-  const didSubmitModalContent = <p>Order processed ✅</p>;
+
+  const didSubmitModalContent = (
+    <>
+      <p>Order processed ✅</p>{" "}
+      <div className={styles.actions}>
+      <button className={styles.button} onClick={props.onCloseCheckout}>
+        Close
+      </button>
+      </div>
+    </>
+  );
 
   return (
     <Modal onClose={props.onCloseCheckout}>
