@@ -1,4 +1,4 @@
-# 🚴 Gohan Hunter
+# 🚚 Gohan Hunter
 
 Food ordering app built in React, backend order data on Firebase.
 
