@@ -1,3 +1,5 @@
+![screenshot](./screenshots/gohan.png)
+
 # 🚚 Gohan Hunter
 
 Food ordering app built in React, backend order data on Firebase.
