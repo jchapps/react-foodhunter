@@ -31,7 +31,7 @@ function MealItemForm(props) {
         step: '1',
         default: '1'
       }}/>
-      <button>+</button>
+      <button>Add To Cart</button>
     </form>
 
   );
